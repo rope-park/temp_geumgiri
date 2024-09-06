@@ -23,7 +23,7 @@ const Signup: React.FC = () => {
         }
 
         try {
-            const response = await axios.post('/api/signup', {
+            const response = await axios.post('../api/signup.ts', {
                 username,
                 email,
                 password,
@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
             // 회원가입 성공 시 로그인 페이지로 리디렉션
             setMessage('회원가입이 완료되었습니다.')
             setTimeout(() => {
-                navigate('/login');
+                navigate('../login');
             }, 2000);
         } catch (error) {
             setMessage('회원가입에 실패했습니다. 다시 시도해 주세요.');
