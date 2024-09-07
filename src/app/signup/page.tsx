@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import axios from 'axios'; // 서버와 통신하기 위함
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL; // 환경 변수에서 API URL 가져오기
+
 const Signup: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -23,7 +25,7 @@ const Signup: React.FC = () => {
         }
 
         try {
-            const response = await axios.post('../api/signup.ts', {
+            const response = await axios.post(API_URL + 'signup', {
                 username,
                 email,
                 password,

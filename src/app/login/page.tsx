@@ -5,6 +5,8 @@ import useAuthStore from '@/store/authStore';
 import axios from 'axios'; // 서버와 통신하기 위함
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL; // 환경 변수에서 API URL 가져오기
+
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,14 +16,18 @@ const Login: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // 유효성 검사
+        if (!username || !password) {
+            setMessage('아이디와 비밀번호를 모두 입력해 주세요.');
+            return;
+        }
+        
         try {
-            const response = await axios.post('', { // api 경로 추가
-                username,
-                password
-            });
+            const response = await axios.post(API_URL + 'login', { username, password });
             const { token } = response.data;
+            useAuthStore.getState().setUser(response.data); // Zustand에 사용자 정보 저장
 
-            // 로그인 성공 시 토큰 저장 // zusland 이용 추가 및 수정
+            // 로그인 성공 시 토큰 저장 // Zustand 이용 추가 및 수정
             localStorage.setItem('authToken', token);
 
             // 로그인 성공 시 대시보드로 리디렉션
