@@ -3,12 +3,12 @@
 import axios from 'axios';
 import useAuthStore from '@/store/authStore'; 
 
-const API_URL = 'http://localhost:8080/api/auth/'; // 백엔드 API URL 
+const API_URL = process.env.NEXT_PUBLIC_API_URL; // 백엔드 API URL 
 
 // signup 함수
 export const signup = async (username: string, email: string, password: string) => {
     try {
-        const response = await axios.post('${API_URL}/signin', { username, email, password });
+        const response = await axios.post('${API_URL}signin', { username, email, password });
         return response.data; // 회원가입 결과 반환
     } catch (error) { // 회원가입 실패할 경우
         console.error('회원가입에 실패하였습니다:', error);
@@ -19,7 +19,7 @@ export const signup = async (username: string, email: string, password: string) 
 // login 함수
 export const login = async (username: string, password: string) => {
     try {
-        const response = await axios.post('${API_URL}/login', { username, password });
+        const response = await axios.post('${API_URL}login', { username, password });
         const user = response.data; 
 
         // Zustland 스토어(/store/authStore.ts)에 사용자 정보 저장
