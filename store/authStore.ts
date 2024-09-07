@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 
 // AuthState 인터페이스 정의 및 상태 구조 설명
+// Zustand 스토어 생성
 interface AuthState {
     user : { token: string; username: string } | null;
     setUser : (user: { token: string; username: string }) => void;
