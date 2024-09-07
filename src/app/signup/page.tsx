@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // style/gloabals.css 구성 완료되면 import하기 (or bootstrap 이용)
 
 import axios from 'axios'; // 서버와 통신하기 위함
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL; // 환경 변수에서 API URL 가져오기
@@ -18,9 +19,24 @@ const Signup: React.FC = () => {
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // 비밀번호 확인
+        // 유효성 검사
+        if (!username || !email || !password || !confirmPassword) {
+            setMessage('모든 필드를 입력해 주세요.');
+            return;
+        }
+        
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setMessage('유효한 이메일을 입력해 주세요.');
+            return;
+        }
+        
+        if (password.length < 6) {
+            setMessage('비밀번호는 6자리 이상이어야 합니다.');
+            return;
+        }
+        
         if (password !== confirmPassword) {
-            setMessage('비밀번호와 일치하지 않습니다.');
+            setMessage('비밀번호가 일치하지 않습니다.');
             return;
         }
 
@@ -28,7 +44,7 @@ const Signup: React.FC = () => {
             const response = await axios.post(API_URL + 'signup', {
                 username,
                 email,
-                password,
+                password
             });
 
             // 회원가입 성공 시 로그인 페이지로 리디렉션
